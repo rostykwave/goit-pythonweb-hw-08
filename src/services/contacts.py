@@ -21,3 +21,9 @@ class ContactService:
 
     async def remove_contact(self, contact_id: int):
         return await self.repository.remove_contact(contact_id)
+    
+    async def search_contacts(self, query: str, skip: int = 0, limit: int = 100):
+        return await self.repository.search_contacts(query, skip, limit)
+
+    async def get_upcoming_birthdays(self, skip: int = 0, limit: int = 100):
+        return await self.repository.get_upcoming_birthdays(skip, limit)

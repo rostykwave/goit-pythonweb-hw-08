@@ -52,3 +52,19 @@ async def remove_contact(contact_id: int, db: AsyncSession = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found"
         )
     return contact
+
+@router.get("/search/", response_model=List[ContactResponse])
+async def search_contacts(
+    q: str, skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)
+):
+    contact_service = ContactService(db)
+    contacts = await contact_service.search_contacts(q, skip, limit)
+    return contacts
+
+@router.get("/birthdays/", response_model=List[ContactResponse])
+async def get_upcoming_birthdays(
+    skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)
+):
+    contact_service = ContactService(db)
+    contacts = await contact_service.get_upcoming_birthdays(skip, limit)
+    return contacts
